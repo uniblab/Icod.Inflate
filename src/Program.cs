@@ -76,9 +76,9 @@ namespace Icod.Inflate {
 		private static void Decompress( System.String inputFilePathName, System.String outputFilePathName ) {
 #if DEBUG
 			if ( System.String.IsNullOrEmpty( inputFilePathName ) ) {
-				throw new System.ArgumentNullException( "inputFilePathName" );
+				throw new System.ArgumentNullException( nameof( inputFilePathName ) );
 			} else if ( System.String.IsNullOrEmpty( outputFilePathName ) ) {
-				throw new System.ArgumentNullException( "outputFilePathName" );
+				throw new System.ArgumentNullException( nameof( outputFilePathName ) );
 			}
 #endif
 			using ( var reader = System.IO.File.OpenRead( inputFilePathName ) ) {
