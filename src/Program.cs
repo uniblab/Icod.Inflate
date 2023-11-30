@@ -26,28 +26,31 @@ namespace Icod.Inflate {
 
 		[System.STAThread]
 		public static System.Int32 Main( System.String[] args ) {
-			if ( null == args ) {
+			var processor = new Icod.Argh.Processor(
+				new Icod.Argh.Definition[] {
+					new Icod.Argh.Definition( "help", new System.String[] { "-h", "--help", "/help" } ),
+					new Icod.Argh.Definition( "copyright", new System.String[] { "-c", "--copyright", "/copyright" } ),
+				},
+				System.StringComparer.OrdinalIgnoreCase
+			);
+			processor.Parse( args );
+
+			var argLen = args.Length;
+			if (
+				( processor.Contains( "help" ) )
+				|| ( 0 == argLen )
+				|| ( 2 < argLen )
+			) {
 				PrintUsage();
 				return 1;
-			}
-			var len = args.Length;
-			if ( len <= 0 ) {
-				PrintUsage();
-				return 1;
-			} else if ( 2 < len ) {
-				PrintUsage();
-				return 1;
-			}
-			System.String inputPathName = args[ 0 ];
-			if ( new System.String[]{ "--help", "-h", "/h" }.Contains( inputPathName, System.StringComparer.OrdinalIgnoreCase ) ) {
-				PrintUsage();
-				return 1;
-			} else if ( new System.String[] { "--copyright", "-c", "/c" }.Contains( inputPathName, System.StringComparer.OrdinalIgnoreCase ) ) {
+			} else if ( processor.Contains( "copyright" ) ) {
 				PrintCopyright();
 				return 1;
 			}
+
+			System.String inputPathName = args[ 0 ];
 			System.String outputPathName;
-			if (2 <= args.Length ) {
+			if ( 2 == argLen ) {
 				outputPathName = args[ 1 ];
 				if ( System.IO.Directory.Exists( outputPathName ) ) {
 					var name = System.IO.Path.GetFileName( inputPathName );
@@ -74,13 +77,6 @@ namespace Icod.Inflate {
 		}
 
 		private static void Decompress( System.String inputFilePathName, System.String outputFilePathName ) {
-#if DEBUG
-			if ( System.String.IsNullOrEmpty( inputFilePathName ) ) {
-				throw new System.ArgumentNullException( nameof( inputFilePathName ) );
-			} else if ( System.String.IsNullOrEmpty( outputFilePathName ) ) {
-				throw new System.ArgumentNullException( nameof( outputFilePathName ) );
-			}
-#endif
 			using ( var reader = System.IO.File.OpenRead( inputFilePathName ) ) {
 				using ( var output = System.IO.File.OpenWrite( outputFilePathName ) ) {
 					using ( var worker = new System.IO.Compression.DeflateStream( reader, System.IO.Compression.CompressionMode.Decompress, true ) ) {
