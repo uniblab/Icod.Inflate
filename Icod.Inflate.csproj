@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Inflate.exe decompresses files using the Deflate compression algorithm.
-    Copyright (C) 2023 Timothy J. Bruce
+    Copyright (C) 2025 Timothy J. Bruce
 -->
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
@@ -18,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Icod.Argh" Version="1.1.1" />
+		<PackageReference Include="Icod.Argh" Version="1.1.2" />
 		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
 	</ItemGroup>
 
